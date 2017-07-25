@@ -1,25 +1,12 @@
 package com.idtech.aidanlawfordwickham.asteroids;
 
-/**
- * Created by iD Student on 7/20/2017.
- */
-
-        import android.content.Context;
-        import android.graphics.Bitmap;
-        import android.graphics.Canvas;
-        import android.graphics.Color;
-        import android.graphics.Paint;
-        import android.view.MotionEvent;
-        import android.view.SurfaceHolder;
-        import android.view.SurfaceView;
-        import android.graphics.BitmapFactory;
-
-        import java.util.ArrayList;
-        import java.util.Random;
-        import java.util.Timer;
-
-        import static com.idtech.aidanlawfordwickham.asteroids.R.drawable.asteroid;
-        import static com.idtech.aidanlawfordwickham.asteroids.Util.getResizedBitmap;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
