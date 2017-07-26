@@ -1,8 +1,15 @@
 package com.idtech.aidanlawfordwickham.asteroids;
 
-/**
- * Created by iD Student on 7/25/2017.
- */
+import android.graphics.Color;
 
-public class Turret {
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.turretPaint;
+
+public class Turret extends Bullet{
+
+    public Turret(int x, int y) {
+        super(x, y, 25, 20, 5, turretPaint);
+        turretPaint.setColor(Color.rgb(254,64,216));
+        turretPaint.setStrokeWidth(5);
+    }
+
 }

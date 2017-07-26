@@ -29,6 +29,7 @@ public class Asteroid extends CanvasObject{
         explosionPaint = new Paint();
         explosionPaint.setColor(Color.rgb(178,128,128));
         explosionPaint.setShadowLayer(10,12,12, Color.argb(50, 214, 92, 0));
+        explosionPaint.setStrokeWidth(3);
     }
 
     public Bitmap getBitmap() {
@@ -49,8 +50,8 @@ public class Asteroid extends CanvasObject{
 
     public void draw(Canvas canvas) {
         if(this.exploding) {
-            canvas.drawCircle((float) random.nextInt(x) + 2, (float) random.nextInt(y) + 2, (float) random.nextInt(y) + 2, explosionPaint);
-            canvas.drawBitmap(bitmap, x, y, null);
+            canvas.drawCircle(x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2, (float) random.nextInt(bitmap.getWidth() / 2) + 1, explosionPaint);
+            canvas.drawARGB(90, 254, 69, random.nextInt(146));
             if(ticker % 30 == 0) {
                 setToBeRemoved(true);
             }

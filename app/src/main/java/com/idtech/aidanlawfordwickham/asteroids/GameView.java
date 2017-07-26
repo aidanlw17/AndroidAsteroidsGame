@@ -79,7 +79,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 // Set locations for firing weapon
                 objectManager.weapon.setHolsterLocations(objectManager.spaceship.getX(), objectManager.spaceship.getY());
                 // Fire Bullet
-                objectManager.weapon.fire(50);
+                objectManager.weapon.fire(1);
 
             } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
                 joystick.setCanvasFingerX((int) event.getX());
@@ -99,7 +99,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.rgb(0,0,0));
 
         if(gameOver) {
-            scoreCounter.resetScore();
+            scoreCounter.setHighScore();
             tickerNumber = 40;
             ticker = 0;
             canvas.drawText("Game Over! Tap the screen to restart.", 30, getHeight() / 2, gameOverPaint);

@@ -1,7 +1,6 @@
 package com.idtech.aidanlawfordwickham.asteroids;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 
 /**
@@ -11,15 +10,16 @@ import android.graphics.Paint;
 public class Bullet extends CanvasObject{
 
     private int height;
-    private Paint bulletPaint;
     private int damage;
+    private int yVelocity;
+    private Paint paint;
 
-    public Bullet(int x, int y, int damage) {
+    public Bullet(int x, int y, int damage, int yVelocity, int height, Paint paint) {
         super(x,y);
-        bulletPaint = new Paint();
-        bulletPaint.setColor(Color.rgb(50,250,50));
-        this.height = 10;
         this.damage = damage;
+        this.yVelocity = yVelocity;
+        this.height = height;
+        this.paint = paint;
     }
 
     public int getHeight() {
@@ -31,8 +31,8 @@ public class Bullet extends CanvasObject{
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawLine(x, y, x, y - height, bulletPaint);
-        canvas.drawLine(x, y, x, y - height, bulletPaint);
-        y = y - 10;
+        canvas.drawLine(x, y, x, y - height, paint);
+        canvas.drawLine(x, y, x, y - height, paint);
+        y = y - yVelocity;
     }
 }

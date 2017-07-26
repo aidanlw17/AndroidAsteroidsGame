@@ -24,10 +24,13 @@ public class ScoreCounter {
         this.highScore = 0;
     }
 
-    public void resetScore() {
+    public void setHighScore() {
         if(score > highScore) {
             highScore = score;
         }
+    }
+
+    public void resetScore() {
         score = 0;
     }
 

@@ -34,9 +34,33 @@ public class Weapon {
         yValueHolsterTwo = spaceshipY + 45;
     }
 
-    public void fire(int damage) {
-        bullets.add(new Bullet(xValueHolsterOne, yValueHolsterOne, damage));
-        bullets.add(new Bullet(xValueHolsterTwo, yValueHolsterTwo, damage));
+    public void fire(int weaponNumber) {
+        switch (weaponNumber) {
+            case 1:
+                fireTurret();
+                break;
+            case 2:
+                fireRocket();
+                break;
+            case 3:
+                fireLaser();
+                break;
+        }
+    }
+
+    public void fireLaser() {
+        bullets.add(new Laser(xValueHolsterOne, yValueHolsterOne));
+        bullets.add(new Laser(xValueHolsterTwo, yValueHolsterTwo));
+    }
+
+    public void fireRocket() {
+        bullets.add(new Rocket(xValueHolsterOne, yValueHolsterOne));
+        bullets.add(new Rocket(xValueHolsterTwo, yValueHolsterTwo));
+    }
+
+    public void fireTurret() {
+        bullets.add(new Turret(xValueHolsterOne, yValueHolsterOne));
+        bullets.add(new Turret(xValueHolsterTwo, yValueHolsterTwo));
     }
 
     public void draw(Canvas canvas) {
