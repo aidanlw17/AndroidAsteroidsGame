@@ -4,11 +4,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.widget.Space;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
 
 import static com.idtech.aidanlawfordwickham.asteroids.R.drawable.asteroid;
 import static com.idtech.aidanlawfordwickham.asteroids.Util.getResizedBitmap;
@@ -19,9 +17,9 @@ import static com.idtech.aidanlawfordwickham.asteroids.Util.getResizedBitmap;
 
 public class ObjectManager {
 
-    private ArrayList<Asteroid> asteroids;
-    private ArrayList<Asteroid> asteroidsToRemove;
-    private ArrayList<Asteroid> tempAsteroids;
+    private ArrayList<EnemyObject> enemyObjects;
+    private ArrayList<EnemyObject> enemyObjectsToRemove;
+    private ArrayList<EnemyObject> tempEnemyObjects;
 
     private ArrayList<Bullet> bulletToRemove = new ArrayList<Bullet>();
     private ArrayList<Bullet> tempBullets;
@@ -29,6 +27,7 @@ public class ObjectManager {
     public Weapon weapon = new Weapon();
     public Spaceship spaceship;
     private Bitmap asteroidBM;
+    private Bitmap planetBM;
     private Resources resources;
 
     public ObjectManager(Resources resources) {
@@ -36,11 +35,12 @@ public class ObjectManager {
 
         spaceship = new Spaceship(Util.getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.spaceship), 225, 170), 300, 1000);
         asteroidBM = getResizedBitmap(BitmapFactory.decodeResource(this.resources, asteroid),100,100);
+        planetBM = getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.planet), 100, 100);
     }
 
     public void preDraw() {
-        synchronized (asteroids) {
-            tempAsteroids = new ArrayList<Asteroid>(asteroids);
+        synchronized (enemyObjects) {
+            tempEnemyObjects = new ArrayList<EnemyObject>(enemyObjects);
         }
         synchronized (weapon.bullets) {
             tempBullets = new ArrayList<Bullet>(weapon.bullets);
@@ -49,15 +49,15 @@ public class ObjectManager {
 
     public void removeAsteroids() {
 
-        for(Asteroid asteroid:tempAsteroids) {
+        for(EnemyObject asteroid: tempEnemyObjects) {
             if(asteroid.getToBeRemoved()) {
-                asteroidsToRemove.add(asteroid);
+                enemyObjectsToRemove.add(asteroid);
             }
         }
 
-        tempAsteroids.removeAll(asteroidsToRemove);
-        asteroids = tempAsteroids;
-        asteroidsToRemove.clear();
+        tempEnemyObjects.removeAll(enemyObjectsToRemove);
+        enemyObjects = tempEnemyObjects;
+        enemyObjectsToRemove.clear();
     }
 
     public void removeBullets() {
@@ -69,7 +69,7 @@ public class ObjectManager {
     public boolean collisionsCheckAsteroidSpaceship() {
         Bitmap spaceshipBitmap = spaceship.getBitmap();
 
-        for (Asteroid asteroid:tempAsteroids) {
+        for (EnemyObject asteroid: tempEnemyObjects) {
             Bitmap asteroidBitmap = asteroid.getBitmap();
 
             if (asteroid.getX() < spaceship.getX() + (spaceshipBitmap.getWidth() / 2)
@@ -88,13 +88,16 @@ public class ObjectManager {
 
     public boolean collisionsCheckAsteroidWeapon() {
 
-        for(Asteroid asteroid:tempAsteroids) {
-            Bitmap asteroidBitmap = asteroid.getBitmap();
+        for(EnemyObject enemyObject: tempEnemyObjects) {
+            Bitmap asteroidBitmap = enemyObject.getBitmap();
 
             for(Bullet bullet:tempBullets) {
-                if ((asteroid.getY() + asteroidBitmap.getHeight() >= bullet.getY() - bullet.getHeight()) &&
-                        (bullet.getX() > asteroid.getX() && bullet.getX() < asteroid.getX() + asteroidBitmap.getWidth()))  {
-                    asteroid.destruct(bullet.getDamage());
+                if ((enemyObject.getY() + asteroidBitmap.getHeight() >= bullet.getY() - bullet.getHeight()) &&
+                        (bullet.getX() > enemyObject.getX() && bullet.getX() < enemyObject.getX() + asteroidBitmap.getWidth()))  {
+                    if(enemyObject instanceof Asteroid){
+                        Asteroid asteroid = (Asteroid) enemyObject;
+                        asteroid.destruct(bullet.getDamage());
+                    }
                     bulletToRemove.add(bullet);
                 }
             }
@@ -104,7 +107,7 @@ public class ObjectManager {
 
     public void clearObjects() {
         collisionsCheckAsteroidWeapon();
-        // clearing asteroids
+        // clearing enemyObjects
         removeAsteroids();
         // clearing bullets
         removeBullets();
@@ -112,25 +115,32 @@ public class ObjectManager {
 
     public void resetObjects() {
         spaceship = new Spaceship(Util.getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.spaceship), 150, 130), 300, 1000);
-        asteroids = new ArrayList<Asteroid>();
-        asteroidsToRemove = new ArrayList<Asteroid>();
+        enemyObjects = new ArrayList<EnemyObject>();
+        enemyObjectsToRemove = new ArrayList<EnemyObject>();
     }
 
     public void addAsteroid(Canvas canvas) {
         Random generator = new Random();
         int startingXPosition = generator.nextInt(canvas.getWidth() - asteroidBM.getWidth());
         Asteroid asteroid = new Asteroid(asteroidBM, startingXPosition, 0);
-        tempAsteroids.add(asteroid);
+        tempEnemyObjects.add(asteroid);
+    }
+
+    public void addPlanet(Canvas canvas) {
+        Random generator = new Random();
+        int startingXPosition = generator.nextInt(canvas.getWidth() - planetBM.getWidth());
+        Planet planet = new Planet(planetBM, startingXPosition, 0);
+        tempEnemyObjects.add(planet);
     }
 
     public boolean draw(Canvas canvas) {
         boolean  result = false;
         spaceship.draw(canvas);
         weapon.draw(canvas);
-        for (Asteroid asteroid : tempAsteroids) {
-            asteroid.draw(canvas);
-            if (asteroid.getY() > canvas.getHeight()) {
-                asteroidsToRemove.add(asteroid);
+        for (EnemyObject enemyObject : tempEnemyObjects) {
+            enemyObject.draw(canvas);
+            if (enemyObject.getY() > canvas.getHeight()) {
+                enemyObjectsToRemove.add(enemyObject);
                 result = true;
             }
         }

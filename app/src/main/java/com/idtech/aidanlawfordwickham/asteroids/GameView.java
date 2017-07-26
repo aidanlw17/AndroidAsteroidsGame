@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.Random;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     Joystick joystick = new Joystick();
@@ -18,6 +20,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     ScoreCounter scoreCounter =  new ScoreCounter();
     int ticker;
     int tickerNumber = 40;
+    float n = 8;
     ObjectManager objectManager;
 
     public void setgameOver(boolean gameOver) {
@@ -53,6 +56,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         boolean retry = true;
         while(retry) {
             try {
+                thread.setRunning(false);
                 thread.join();
                 retry = false;
             } catch (InterruptedException e) {
@@ -102,9 +106,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             scoreCounter.setHighScore();
             tickerNumber = 40;
             ticker = 0;
-            canvas.drawText("Game Over! Tap the screen to restart.", 30, getHeight() / 2, gameOverPaint);
-            canvas.drawText("Your score: " + Integer.toString(scoreCounter.getScore()), 100, getHeight() / 2 + 100, gameOverPaint);
-            canvas.drawText("High score: " + Integer.toString(scoreCounter.getHighScore()), 100, getHeight() / 2 + 200, gameOverPaint);
+            canvas.drawText("Game Over! Tap the screen to restart.", getWidth() /5, getHeight() *3 / 8, gameOverPaint);
+            canvas.drawText("Your score: " + Integer.toString(scoreCounter.getScore()), getWidth() /5, getHeight() *3/5, gameOverPaint);
+            canvas.drawText("High score: " + Integer.toString(scoreCounter.getHighScore()), getWidth() /5, getHeight() * 3/4, gameOverPaint);
         } else {
             // Draw Ship
             objectManager.spaceship.setxVelocity((int) joystick.getJoystickX());
@@ -121,7 +125,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // Draw Asteroids
             if(ticker % tickerNumber == 0) {
-                objectManager.addAsteroid(canvas);
+                Random random = new Random();
+                if(n == 5) {
+                    if(random.nextInt(9) > n) {
+                        objectManager.addPlanet(canvas);
+                    } else {
+                        objectManager.addAsteroid(canvas);
+                    }
+                } else if(random.nextInt(9) > n) {
+                    objectManager.addPlanet(canvas);
+                    n -= 0.01;
+                } else if(random.nextInt(9) < n) {
+                    objectManager.addAsteroid(canvas);
+                    n -= 0.01;
+                }
             }
 
             decreaseTickerNumber();
@@ -144,6 +161,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         scoreCounter.resetScore();
         objectManager.resetObjects();
         setgameOver(false);
+        n = 8;
     }
 
     public void decreaseTickerNumber() {

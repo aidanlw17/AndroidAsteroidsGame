@@ -9,8 +9,13 @@ import android.graphics.Paint;
 
 public class ObjectPaint {
 
+    public ObjectPaint() {
+
+    }
+
     static Paint laserPaint = new Paint();
     static Paint rocketPaint = new Paint();
     static Paint turretPaint = new Paint();
+    static Paint explosionPaint = new Paint();
 
 }
