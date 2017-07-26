@@ -8,6 +8,7 @@ import android.widget.Space;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
 
 import static com.idtech.aidanlawfordwickham.asteroids.R.drawable.asteroid;
 import static com.idtech.aidanlawfordwickham.asteroids.Util.getResizedBitmap;
@@ -47,6 +48,13 @@ public class ObjectManager {
     }
 
     public void removeAsteroids() {
+
+        for(Asteroid asteroid:tempAsteroids) {
+            if(asteroid.getToBeRemoved()) {
+                asteroidsToRemove.add(asteroid);
+            }
+        }
+
         tempAsteroids.removeAll(asteroidsToRemove);
         asteroids = tempAsteroids;
         asteroidsToRemove.clear();
@@ -86,9 +94,8 @@ public class ObjectManager {
             for(Bullet bullet:tempBullets) {
                 if ((asteroid.getY() + asteroidBitmap.getHeight() >= bullet.getY() - bullet.getHeight()) &&
                         (bullet.getX() > asteroid.getX() && bullet.getX() < asteroid.getX() + asteroidBitmap.getWidth()))  {
-                    asteroidsToRemove.add(asteroid);
+                    asteroid.destruct(bullet.getDamage());
                     bulletToRemove.add(bullet);
-                    return true;
                 }
             }
         }
@@ -96,7 +103,6 @@ public class ObjectManager {
     }
 
     public void clearObjects() {
-        collisionsCheckAsteroidSpaceship();
         collisionsCheckAsteroidWeapon();
         // clearing asteroids
         removeAsteroids();

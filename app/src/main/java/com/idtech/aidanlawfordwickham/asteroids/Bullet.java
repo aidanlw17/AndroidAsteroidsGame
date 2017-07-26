@@ -14,13 +14,15 @@ public class Bullet {
     private float y;
     private int height;
     private Paint bulletPaint;
+    private int damage;
 
-    public Bullet(float x, float y) {
+    public Bullet(float x, float y, int damage) {
         bulletPaint = new Paint();
         bulletPaint.setColor(Color.rgb(50,250,50));
         this.x = x;
         this.y = y;
         this.height = 10;
+        this.damage = damage;
     }
 
     public void setX(float x) {
@@ -41,6 +43,10 @@ public class Bullet {
 
     public int getHeight() {
         return this.height;
+    }
+
+    public int getDamage() {
+        return this.damage;
     }
 
     public void draw(Canvas canvas) {

@@ -79,7 +79,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 // Set locations for firing weapon
                 objectManager.weapon.setHolsterLocations(objectManager.spaceship.getX(), objectManager.spaceship.getY());
                 // Fire Bullet
-                objectManager.weapon.fire();
+                objectManager.weapon.fire(50);
 
             } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
                 joystick.setCanvasFingerX((int) event.getX());

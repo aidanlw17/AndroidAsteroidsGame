@@ -34,9 +34,9 @@ public class Weapon {
         yValueHolsterTwo = spaceshipY + 45;
     }
 
-    public void fire() {
-        bullets.add(new Bullet(xValueHolsterOne, yValueHolsterOne));
-        bullets.add(new Bullet(xValueHolsterTwo, yValueHolsterTwo));
+    public void fire(int damage) {
+        bullets.add(new Bullet(xValueHolsterOne, yValueHolsterOne, damage));
+        bullets.add(new Bullet(xValueHolsterTwo, yValueHolsterTwo, damage));
     }
 
     public void draw(Canvas canvas) {

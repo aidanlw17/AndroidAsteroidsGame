@@ -14,13 +14,16 @@ public class Asteroid {
     private Bitmap bitmap;
     private int height = y + 30;
     private int width = x + 30;
-    private boolean hasCollided;
+    private boolean toBeRemoved;
+    private boolean exploding;
+    private int health = 100;
+    private int ticker;
+
 
     public Asteroid(Bitmap bitmap, int x, int y) {
         this.x = x;
         this.y = y;
         this.bitmap = bitmap;
-        this.hasCollided = false;
     }
 
     public Bitmap getBitmap() {
@@ -51,12 +54,37 @@ public class Asteroid {
         return this.width;
     }
 
-    public void setHasCollided(boolean hasCollided) {
-        this.hasCollided = hasCollided;
+    public void setExploding(boolean destruct) {
+        this.exploding = destruct;
+    }
+
+    public void setToBeRemoved(boolean toBeRemoved) {
+        this.toBeRemoved = toBeRemoved;
+    }
+
+    public boolean getToBeRemoved() {
+        return this.toBeRemoved;
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, x, y, null);
-        y = y + 7;
+        if(this.exploding) {
+            canvas.drawBitmap(bitmap, x, y, null);
+            if(ticker % 30 == 0) {
+                setToBeRemoved(true);
+            }
+        } else {
+            canvas.drawBitmap(bitmap, x, y, null);
+            y = y + 7;
+        }
+        ticker ++;
+    }
+
+    public void destruct(int damage) {
+        if(this.health - damage > 0) {
+            this.health -= damage;
+        } else {
+            this.health = 0;
+            setExploding(true);
+        }
     }
 }
