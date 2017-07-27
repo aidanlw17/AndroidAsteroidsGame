@@ -14,7 +14,7 @@ import java.util.Random;
 
 import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.gameOverPaint;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+public class GameView extends SurfaceView implements SurfaceHolder.Callback, BaseGameView {
 
     Joystick joystick = new Joystick();
     private GameThread thread;
@@ -90,7 +90,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         if(canvas == null) {
             return;
         }

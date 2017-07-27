@@ -10,14 +10,18 @@ import android.view.SurfaceHolder;
 
 public class GameThread extends Thread {
     private SurfaceHolder surfaceHolder;
-    private GameView gameView;
+    private BaseGameView gameView;
+
+    public boolean isRunning() {
+        return running;
+    }
 
     private boolean running;
     public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public GameThread(SurfaceHolder surfaceHolder, GameView gameView) {
+    public GameThread(SurfaceHolder surfaceHolder, BaseGameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
