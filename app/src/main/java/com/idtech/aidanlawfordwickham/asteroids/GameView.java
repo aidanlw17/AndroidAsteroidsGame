@@ -23,10 +23,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     float n = 8;
     ObjectManager objectManager;
 
-    public void setgameOver(boolean gameOver) {
-        this.gameOver = gameOver;
-    }
-
     public GameView(Context context) {
         super(context);
         getHolder().addCallback(this);
@@ -83,7 +79,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 // Set locations for firing weapon
                 objectManager.weapon.setHolsterLocations(objectManager.spaceship.getX(), objectManager.spaceship.getY());
                 // Fire Bullet
-                objectManager.weapon.fire(1);
+                objectManager.weapon.fire(2);
 
             } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
                 joystick.setCanvasFingerX((int) event.getX());
@@ -151,6 +147,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             scoreCounter.addScore();
         }
     }
+
+    public void setgameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
 
     public void collisionCheck() {
         setgameOver(objectManager.collisionsCheckAsteroidSpaceship());

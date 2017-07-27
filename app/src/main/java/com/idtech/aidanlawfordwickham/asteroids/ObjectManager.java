@@ -111,6 +111,10 @@ public class ObjectManager {
         spaceship = new Spaceship(spaceshipBM, 300, 1000);
         enemyObjects = new ArrayList<EnemyObject>();
         enemyObjectsToRemove = new ArrayList<EnemyObject>();
+        enemyObjects.clear();
+        enemyObjectsToRemove.clear();
+        weapon.bullets.clear();
+        bulletToRemove.clear();
     }
 
     public void addAsteroid(Canvas canvas) {
