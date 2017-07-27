@@ -2,16 +2,10 @@ package com.idtech.aidanlawfordwickham.asteroids;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 
 import java.util.Random;
 
 import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.explosionPaint;
-
-/**
- * Created by iD Student on 7/20/2017.
- */
 
 public class Asteroid extends EnemyObject{
 
@@ -20,15 +14,10 @@ public class Asteroid extends EnemyObject{
     private int health = 100;
     private int ticker;
     Random random;
-    Paint explosionPaint;
 
     public Asteroid(Bitmap bitmap, int x, int y) {
         super(bitmap, x, y);
         random = new Random();
-        explosionPaint = new Paint();
-        explosionPaint.setColor(Color.rgb(178,128,128));
-        explosionPaint.setShadowLayer(10,12,12, Color.argb(50, 214, 92, 0));
-        explosionPaint.setStrokeWidth(3);
     }
 
     public void setExploding(boolean destruct) {

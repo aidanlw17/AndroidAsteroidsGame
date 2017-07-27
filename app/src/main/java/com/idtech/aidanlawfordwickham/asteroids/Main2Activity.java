@@ -17,6 +17,9 @@ public class Main2Activity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
+        ObjectPaint.createPaint();
+        ObjectBitmap.initializeBitmaps(getResources());
+
         CustomPagerAdapter pagerAdapter = new CustomPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);

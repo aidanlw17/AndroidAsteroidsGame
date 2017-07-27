@@ -8,7 +8,6 @@ public class Laser extends Bullet {
 
     public Laser(int x, int y) {
         super(x, y, 50, 10, 10, laserPaint);
-        laserPaint.setColor(Color.rgb(50,250,50));
     }
 
 }

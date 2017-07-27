@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
-        objectManager = new ObjectManager(getResources());
+        objectManager = new ObjectManager();
 
         gameOverPaint = new Paint();
         gameOverPaint.setColor(Color.WHITE);
@@ -126,7 +126,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             // Draw Asteroids
             if(ticker % tickerNumber == 0) {
                 Random random = new Random();
-                if(n == 5) {
+                if(n == 3) {
                     if(random.nextInt(9) > n) {
                         objectManager.addPlanet(canvas);
                     } else {

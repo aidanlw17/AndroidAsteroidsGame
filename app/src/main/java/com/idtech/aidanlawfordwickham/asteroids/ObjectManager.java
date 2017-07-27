@@ -8,12 +8,13 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static com.idtech.aidanlawfordwickham.asteroids.R.drawable.asteroid;
-import static com.idtech.aidanlawfordwickham.asteroids.Util.getResizedBitmap;
-
-/**
- * Created by iD Student on 7/25/2017.
- */
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidFourBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidOneBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidThreeBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidTwoBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidgreenBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.asteroidredBM;
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectBitmap.spaceshipBM;
 
 public class ObjectManager {
 
@@ -23,19 +24,12 @@ public class ObjectManager {
 
     private ArrayList<Bullet> bulletToRemove = new ArrayList<Bullet>();
     private ArrayList<Bullet> tempBullets;
-
+    ObjectBitmap objectBitmap;
     public Weapon weapon = new Weapon();
     public Spaceship spaceship;
-    private Bitmap asteroidBM;
-    private Bitmap planetBM;
-    private Resources resources;
 
-    public ObjectManager(Resources resources) {
-        this.resources = resources;
-
-        spaceship = new Spaceship(Util.getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.spaceship), 225, 170), 300, 1000);
-        asteroidBM = getResizedBitmap(BitmapFactory.decodeResource(this.resources, asteroid),100,100);
-        planetBM = getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.planet), 100, 100);
+    public ObjectManager() {
+        spaceship = new Spaceship(spaceshipBM, 300, 1000);
     }
 
     public void preDraw() {
@@ -114,22 +108,22 @@ public class ObjectManager {
     }
 
     public void resetObjects() {
-        spaceship = new Spaceship(Util.getResizedBitmap(BitmapFactory.decodeResource(this.resources, R.drawable.spaceship), 150, 130), 300, 1000);
+        spaceship = new Spaceship(spaceshipBM, 300, 1000);
         enemyObjects = new ArrayList<EnemyObject>();
         enemyObjectsToRemove = new ArrayList<EnemyObject>();
     }
 
     public void addAsteroid(Canvas canvas) {
         Random generator = new Random();
-        int startingXPosition = generator.nextInt(canvas.getWidth() - asteroidBM.getWidth());
-        Asteroid asteroid = new Asteroid(asteroidBM, startingXPosition, 0);
+        int startingXPosition = generator.nextInt(canvas.getWidth() - 100);
+        Asteroid asteroid = new Asteroid(selectBitmapBreakable(), startingXPosition, 0);
         tempEnemyObjects.add(asteroid);
     }
 
     public void addPlanet(Canvas canvas) {
         Random generator = new Random();
-        int startingXPosition = generator.nextInt(canvas.getWidth() - planetBM.getWidth());
-        Planet planet = new Planet(planetBM, startingXPosition, 0);
+        int startingXPosition = generator.nextInt(canvas.getWidth() - asteroidgreenBM.getWidth());
+        Planet planet = new Planet(selectBitmapNonBreakable(), startingXPosition, 0);
         tempEnemyObjects.add(planet);
     }
 
@@ -138,12 +132,43 @@ public class ObjectManager {
         spaceship.draw(canvas);
         weapon.draw(canvas);
         for (EnemyObject enemyObject : tempEnemyObjects) {
-            enemyObject.draw(canvas);
+            if(enemyObject instanceof Planet) {
+                Planet planet = (Planet) enemyObject;
+                planet.draw(canvas);
+            } else {
+                enemyObject.draw(canvas);
+            }
             if (enemyObject.getY() > canvas.getHeight()) {
                 enemyObjectsToRemove.add(enemyObject);
                 result = true;
             }
         }
         return result;
+    }
+
+    public Bitmap selectBitmapNonBreakable() {
+        Random random = new Random();
+        switch (random.nextInt(2) + 1) {
+            case 1:
+                return asteroidgreenBM;
+            case 2:
+                return asteroidredBM;
+        }
+        return asteroidOneBM;
+    }
+
+    public Bitmap selectBitmapBreakable() {
+        Random random = new Random();
+        switch (random.nextInt(4) + 1) {
+            case 1:
+                return asteroidOneBM;
+            case 2:
+                return asteroidTwoBM;
+            case 3:
+                return asteroidThreeBM;
+            case 4:
+                return asteroidFourBM;
+        }
+        return asteroidOneBM;
     }
 }
