@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.annotation.MainThread;
+import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,19 +19,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     Joystick joystick = new Joystick();
     private GameThread thread;
     boolean gameOver;
-
+    Random random;
     ScoreCounter scoreCounter =  new ScoreCounter();
     int ticker;
     int tickerNumber = 40;
     float n = 8;
     ObjectManager objectManager;
 
-    public GameView(Context context) {
-        super(context);
+    public GameView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
         objectManager = new ObjectManager();
+        random = new Random();
     }
 
     @Override
@@ -63,9 +66,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public boolean onTouchEvent(MotionEvent event) {
 
         if(gameOver) {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                resetGame();
-            }
+
         } else {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 joystick.setJoystickNeeded(true);
@@ -96,12 +97,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.rgb(0,0,0));
 
         if(gameOver) {
-            scoreCounter.setHighScore();
-            tickerNumber = 40;
-            ticker = 0;
-            canvas.drawText("Game Over! Tap the screen to restart.", getWidth() /12, getHeight() /2, gameOverPaint);
-            canvas.drawText("Your score: " + Integer.toString(scoreCounter.getScore()), getWidth() /5, getHeight() *3/5, gameOverPaint);
-            canvas.drawText("High score: " + Integer.toString(scoreCounter.getHighScore()), getWidth() /5, getHeight() * 3/4, gameOverPaint);
+            // Game Over Animation
+            int n = 10;
+            for(int i = 0; i < n; i++) {
+                int x1 = canvas.getHeight() * (ticker % (n - i)) / n;
+                int y1 = canvas.getWidth() * (ticker % (i + 1)) / n;
+                int x2 = canvas.getWidth() * (ticker % (i + 1)) / n;
+                int y2 = canvas.getHeight() * (ticker % (n - i)) / n;
+                switch (i % 3) {
+                    case 0: canvas.drawLine(x1, y1, x2, y2, ObjectPaint.laserPaint); break;
+                    case 1: canvas.drawLine(x1, y1, x2, y2, ObjectPaint.explosionPaint); break;
+                    case 2: canvas.drawLine(x1, y1, x2, y2, ObjectPaint.spaceshipExplosionPaint); break;
+                }
+            }
         } else {
             // Draw Ship
             objectManager.spaceship.setxVelocity((int) joystick.getJoystickX());
@@ -118,7 +126,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
             // Draw Asteroids
             if(ticker % tickerNumber == 0) {
-                Random random = new Random();
                 if(n == 3) {
                     if(random.nextInt(9) > n) {
                         objectManager.addPlanet(canvas);
@@ -134,9 +141,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
 
+            // Draw Stars
+            if(ticker % 4 == 0) {
+                objectManager.addStar(canvas);
+            }
             decreaseTickerNumber();
-            ticker++;
         }
+        ticker++;
     }
 
     public void scoreCheck(boolean addScore) {
@@ -147,18 +158,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void setgameOver(boolean gameOver) {
         this.gameOver = gameOver;
+        if(gameOver) {
+            scoreCounter.setHighScore();
+            tickerNumber = 40;
+            ticker = 0;
+            int score = scoreCounter.getScore();
+            resetGame();
+            MainActivity mainActivity = (MainActivity) getContext();
+            if(mainActivity != null) {
+                mainActivity.setGameOverView(score, scoreCounter.getHighScore());
+            }
+        } else {
+        }
     }
-
-
     public void collisionCheck() {
-        setgameOver(objectManager.spaceship.getToBeRemoved());
-        objectManager.clearObjects();
+        if(gameOver) {
+
+        } else {
+            setgameOver(objectManager.spaceship.getToBeRemoved());
+            objectManager.clearObjects();
+        }
     }
 
     void resetGame() {
         scoreCounter.resetScore();
         objectManager.resetObjects();
-        setgameOver(false);
+        joystick.isActive(false);
         n = 8;
     }
 
@@ -177,6 +202,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void preDraw() {
-        objectManager.preDraw();
+        if(gameOver) {
+
+        } else {
+            objectManager.preDraw();
+        }
     }
 }

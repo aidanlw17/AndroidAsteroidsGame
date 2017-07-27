@@ -20,6 +20,8 @@ public class ObjectPaint {
     static Paint spaceshipExplosionPaint;
     static Paint spaceshipExplosionTwoPaint;
     static Paint scorePaint;
+    static Paint smallStarPaint;
+    static Paint bigStarPaint;
 
     public static void createPaint() {
 
@@ -58,6 +60,12 @@ public class ObjectPaint {
         scorePaint.setColor(Color.rgb(181,185,185));
         scorePaint.setTextSize(80);
         scorePaint.setStrokeWidth(30);
+
+        smallStarPaint = new Paint();
+        smallStarPaint.setColor(Color.argb(80, 240, 255, 255));
+
+        bigStarPaint = new Paint();
+        bigStarPaint.setColor(Color.argb(30, 240, 255, 255));
     }
 
 //    public static Paint randomPaint() {

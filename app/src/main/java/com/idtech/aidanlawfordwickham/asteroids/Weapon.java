@@ -63,6 +63,10 @@ public class Weapon {
         bullets.add(new Turret(xValueHolsterTwo, yValueHolsterTwo));
     }
 
+    public void clearBullets() {
+        bullets = new ArrayList<Bullet>();
+    }
+
     public void draw(Canvas canvas) {
 
         synchronized (bullets) {

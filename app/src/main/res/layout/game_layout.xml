@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.idtech.aidanlawfordwickham.asteroids.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/scoreLayout"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_margin="30dp">
+
+        <TextView
+            android:layout_weight="0"
+            android:id="@+id/gameOver"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/game_over"
+            android:textSize="45dp"
+            android:fontFamily="serif-monospace"
+            android:textAlignment="center"
+            android:textColor="@color/coolBlue" />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/new_game"
+            android:onClick="restartGame"/>
+
+        <TextView
+            android:layout_weight="0"
+            android:id="@+id/scoreTextView"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:fontFamily="serif-monospace"
+            android:textSize="30dp"
+            android:textColor="@color/white" />
+        <TextView
+            android:layout_weight="0"
+            android:id="@+id/highScoreTextView"
+            android:padding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:fontFamily="serif-monospace"
+            android:textAlignment="center"
+            android:text=""
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="@string/main_menu"
+            android:onClick="mainMenu"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

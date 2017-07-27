@@ -1,8 +1,6 @@
 package com.idtech.aidanlawfordwickham.asteroids;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
@@ -22,6 +20,10 @@ public class ObjectManager {
     private ArrayList<EnemyObject> enemyObjectsToRemove;
     private ArrayList<EnemyObject> tempEnemyObjects;
 
+    private ArrayList<Star> stars;
+    private ArrayList<Star> starsToRemove;
+    private ArrayList<Star> tempStars;
+
     private ArrayList<Bullet> bulletToRemove = new ArrayList<Bullet>();
     private ArrayList<Bullet> tempBullets;
 
@@ -38,6 +40,9 @@ public class ObjectManager {
         }
         synchronized (weapon.bullets) {
             tempBullets = new ArrayList<Bullet>(weapon.bullets);
+        }
+        synchronized (stars) {
+            tempStars = new ArrayList<Star>(stars);
         }
     }
 
@@ -58,6 +63,12 @@ public class ObjectManager {
         tempBullets.removeAll(bulletToRemove);
         weapon.bullets = tempBullets;
         bulletToRemove.clear();
+    }
+
+    public void removeStars() {
+        tempStars.removeAll(starsToRemove);
+        stars = tempStars;
+        starsToRemove.clear();
     }
 
     public boolean collisionsCheckAsteroidSpaceship() {
@@ -107,16 +118,19 @@ public class ObjectManager {
         removeAsteroids();
         // clearing bullets
         removeBullets();
+        // clearing background
+        removeStars();
     }
 
     public void resetObjects() {
         spaceship = new Spaceship(spaceshipBM, 300, 1000);
         enemyObjects = new ArrayList<EnemyObject>();
         enemyObjectsToRemove = new ArrayList<EnemyObject>();
-        enemyObjects.clear();
-        enemyObjectsToRemove.clear();
-        weapon.bullets.clear();
-        bulletToRemove.clear();
+        tempEnemyObjects = new ArrayList<EnemyObject>();
+        weapon.clearBullets();
+        bulletToRemove = new ArrayList<Bullet>();
+        stars = new ArrayList<Star>();
+        starsToRemove = new ArrayList<Star>();
     }
 
     public void addAsteroid(Canvas canvas) {
@@ -133,6 +147,14 @@ public class ObjectManager {
         tempEnemyObjects.add(planet);
     }
 
+    public void addStar(Canvas canvas) {
+        Random generator = new Random();
+        int radius = generator.nextInt(10) + 1;
+        int startinXPosition = generator.nextInt(canvas.getWidth() - 5);
+        Star star = new Star(startinXPosition, 0, radius);
+        tempStars.add(star);
+    }
+
     public boolean draw(Canvas canvas) {
         boolean  result = false;
         spaceship.draw(canvas);
@@ -147,6 +169,12 @@ public class ObjectManager {
             if (enemyObject.getY() > canvas.getHeight()) {
                 enemyObjectsToRemove.add(enemyObject);
                 result = true;
+            }
+        }
+        for(Star star : tempStars) {
+            star.draw(canvas);
+            if(star.getY() > canvas.getHeight()) {
+                starsToRemove.add(star);
             }
         }
         return result;
