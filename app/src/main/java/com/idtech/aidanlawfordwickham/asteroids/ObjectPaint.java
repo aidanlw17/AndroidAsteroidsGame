@@ -12,14 +12,14 @@ import java.util.Random;
 
 public class ObjectPaint {
 
+    static Paint gameOverPaint;
     static Paint laserPaint;
     static Paint rocketPaint;
     static Paint turretPaint;
     static Paint explosionPaint;
-//    static Paint planetPaintOne;
-//    static Paint planetPaintTwo;
-//    static Paint planetPaintThree;
-//    static Paint planetPaintFour;
+    static Paint spaceshipExplosionPaint;
+    static Paint spaceshipExplosionTwoPaint;
+    static Paint scorePaint;
 
     public static void createPaint() {
 
@@ -39,18 +39,25 @@ public class ObjectPaint {
         explosionPaint.setShadowLayer(10, 12, 12, Color.argb(50, 214, 92, 0));
         explosionPaint.setStrokeWidth(3);
 
-//        planetPaintOne = new Paint();
-//        planetPaintOne.setColor(Color.rgb(206,93,0));
-//
-//        planetPaintTwo = new Paint();
-//        planetPaintTwo.setColor(Color.rgb(215,120,32));
-//
-//        planetPaintThree = new Paint();
-//        planetPaintThree.setColor(Color.rgb(73,1,0));
-//
-//        planetPaintFour = new Paint();
-//        planetPaintFour.setColor(Color.rgb(250,0,0));
+        spaceshipExplosionPaint = new Paint();
+        spaceshipExplosionPaint.setColor(Color.rgb(212, 54, 70));
+        spaceshipExplosionPaint.setShadowLayer(10,30,23, Color.argb(70, 219,81,58));
+        spaceshipExplosionPaint.setStrokeWidth(10);
 
+        spaceshipExplosionTwoPaint = new Paint();
+        spaceshipExplosionPaint.setColor(Color.rgb(254, 86, 53));
+        spaceshipExplosionPaint.setShadowLayer(10,30,23, Color.argb(70, 219,81,58));
+        spaceshipExplosionPaint.setStrokeWidth(10);
+
+        gameOverPaint = new Paint();
+        gameOverPaint.setStrokeWidth(30);
+        gameOverPaint.setColor(Color.WHITE);
+        gameOverPaint.setTextSize(30);
+
+        scorePaint = new Paint();
+        scorePaint.setColor(Color.rgb(181,185,185));
+        scorePaint.setTextSize(80);
+        scorePaint.setStrokeWidth(30);
     }
 
 //    public static Paint randomPaint() {

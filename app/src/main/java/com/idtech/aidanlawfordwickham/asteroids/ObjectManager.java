@@ -24,7 +24,7 @@ public class ObjectManager {
 
     private ArrayList<Bullet> bulletToRemove = new ArrayList<Bullet>();
     private ArrayList<Bullet> tempBullets;
-    ObjectBitmap objectBitmap;
+
     public Weapon weapon = new Weapon();
     public Spaceship spaceship;
 
@@ -72,6 +72,7 @@ public class ObjectManager {
 
                 if (asteroid.getY() < spaceship.getY() + (spaceshipBitmap.getHeight() /2)
                         && asteroid.getY() + (asteroidBitmap.getHeight() /2) > spaceship.getY()){
+                    spaceship.destruct();
                     return true;
                     // End the game.
                 }
@@ -100,6 +101,7 @@ public class ObjectManager {
     }
 
     public void clearObjects() {
+        collisionsCheckAsteroidSpaceship();
         collisionsCheckAsteroidWeapon();
         // clearing enemyObjects
         removeAsteroids();

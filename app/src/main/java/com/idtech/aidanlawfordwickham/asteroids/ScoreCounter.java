@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.scorePaint;
+
 /**
  * Created by iD Student on 7/21/2017.
  */
@@ -13,13 +15,8 @@ public class ScoreCounter {
 
     private int highScore;
     private int score;
-    Paint scorePaint;
 
     public ScoreCounter() {
-        scorePaint = new Paint();
-        scorePaint.setColor(Color.WHITE);
-        scorePaint.setTextSize(30);
-        scorePaint.setStrokeWidth(30);
         this.score = 0;
         this.highScore = 0;
     }
@@ -47,7 +44,7 @@ public class ScoreCounter {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawText("Score: " + Integer.toString(score), 10, 30, scorePaint);
+        canvas.drawText(Integer.toString(score), 15, 80, scorePaint);
     }
 
 

@@ -16,11 +16,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ASTEROID GAME"
+            android:textSize="40dp"
             android:textStyle="bold"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="150dp"/>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/spaceship"/>
 
         <ImageView
+            android:id="@+id/spaceship"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/spaceship"/>
@@ -52,14 +54,28 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="Leaderboards"/>
-    <Button
+        android:text="Achievements"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Settings"/>
+        android:layout_weight="0">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="Settings"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="20dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="About"/>
+
+    </LinearLayout>
 
 </LinearLayout>

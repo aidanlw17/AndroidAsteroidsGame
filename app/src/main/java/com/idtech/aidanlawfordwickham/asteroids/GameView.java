@@ -10,12 +10,13 @@ import android.view.SurfaceView;
 
 import java.util.Random;
 
+import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.gameOverPaint;
+
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     Joystick joystick = new Joystick();
     private GameThread thread;
     boolean gameOver;
-    Paint gameOverPaint;
 
     ScoreCounter scoreCounter =  new ScoreCounter();
     int ticker;
@@ -29,10 +30,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
         objectManager = new ObjectManager();
-
-        gameOverPaint = new Paint();
-        gameOverPaint.setColor(Color.WHITE);
-        gameOverPaint.setTextSize(40);
     }
 
     @Override
@@ -102,7 +99,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             scoreCounter.setHighScore();
             tickerNumber = 40;
             ticker = 0;
-            canvas.drawText("Game Over! Tap the screen to restart.", getWidth() /5, getHeight() *3 / 8, gameOverPaint);
+            canvas.drawText("Game Over! Tap the screen to restart.", getWidth() /12, getHeight() /2, gameOverPaint);
             canvas.drawText("Your score: " + Integer.toString(scoreCounter.getScore()), getWidth() /5, getHeight() *3/5, gameOverPaint);
             canvas.drawText("High score: " + Integer.toString(scoreCounter.getHighScore()), getWidth() /5, getHeight() * 3/4, gameOverPaint);
         } else {
@@ -154,7 +151,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
     public void collisionCheck() {
-        setgameOver(objectManager.collisionsCheckAsteroidSpaceship());
+        setgameOver(objectManager.spaceship.getToBeRemoved());
         objectManager.clearObjects();
     }
 
