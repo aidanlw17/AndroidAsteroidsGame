@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 public class Weapon {
 
+    public enum Type{laser, rocket, turret}
     private Paint weaponPaint;
 
     ArrayList<Bullet> bullets = new ArrayList<Bullet>();
@@ -34,15 +35,15 @@ public class Weapon {
         yValueHolsterTwo = spaceshipY + 45;
     }
 
-    public void fire(int weaponNumber) {
+    public void fire(Type weaponNumber) {
         switch (weaponNumber) {
-            case 1:
+            case laser:
                 fireTurret();
                 break;
-            case 2:
+            case rocket:
                 fireRocket();
                 break;
-            case 3:
+            case turret:
                 fireLaser();
                 break;
         }

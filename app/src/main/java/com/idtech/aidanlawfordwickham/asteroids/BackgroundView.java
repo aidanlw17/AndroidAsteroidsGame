@@ -2,6 +2,7 @@ package com.idtech.aidanlawfordwickham.asteroids;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -16,8 +17,10 @@ import java.util.Random;
 public class BackgroundView extends SurfaceView implements SurfaceHolder.Callback, BaseGameView {
 
     private GameThread thread;
-//    private ObjectManager objectManager;
     private int ticker;
+    Random random;
+    private Spaceship spaceship;
+    private Title title;
 
     private ArrayList<Star> stars;
     private ArrayList<Star> starsToRemove;
@@ -26,9 +29,12 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
     public BackgroundView(Context context, AttributeSet as) {
         super(context, as);
         getHolder().addCallback(this);
-        thread = new GameThread(getHolder(), this);
         setFocusable(true);
-//        objectManager = new ObjectManager();
+        random = new Random();
+        spaceship = new Spaceship(ObjectBitmap.spaceshipBM, 10, 60);
+//        title = new Title(ObjectBitmap.titleBM, (canvas.getWidth() - ObjectBitmap.titleBM.getWidth() / 2), canvas.getHeight() /4);
+
+        thread = new GameThread(getHolder(), this);
     }
 
     @Override
@@ -39,6 +45,7 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
     public void surfaceCreated(SurfaceHolder holder) {
         if (!thread.isRunning()) {
             resetGame();
+            thread = new GameThread(getHolder(), this);
             thread.setRunning(true);
             thread.start();
         }
@@ -69,6 +76,10 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
         if(canvas == null) {
             return;
         }
+        canvas.drawColor(Color.rgb(0,0,0));
+
+        spaceship.drawBackground(canvas);
+
         for(Star star: tempStars) {
             star.draw(canvas);
         }
@@ -105,6 +116,7 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
     }
 
     public void resetGame() {
+        spaceship = new Spaceship(ObjectBitmap.spaceshipBM, 10, 60);
         resetStars();
     }
 

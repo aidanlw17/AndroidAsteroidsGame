@@ -19,6 +19,8 @@ public class Spaceship extends CanvasObject {
     private int yVelocity;
     private boolean exploding;
     private boolean toBeRemoved;
+    private int xDirection;
+    private int yDirection;
     private int ticker;
     private Random random;
 
@@ -92,10 +94,6 @@ public class Spaceship extends CanvasObject {
 
     public void draw(Canvas canvas) {
         if(this.exploding) {
-//            canvas.drawLine((float) random.nextInt(x), (float) random.nextInt(y), x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2, spaceshipExplosionPaint);
-//            canvas.drawLine((float) random.nextInt(x), (float) random.nextInt(y), x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2, spaceshipExplosionPaint);
-//            canvas.drawLine((float) random.nextInt(x), (float) random.nextInt(y), x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2, spaceshipExplosionPaint);
-//            canvas.drawLine((float) random.nextInt(x), (float) random.nextInt(y), x + bitmap.getWidth() / 2, y + bitmap.getHeight() / 2, spaceshipExplosionPaint);
             canvas.drawCircle(x + bitmap.getWidth() / 2, y + bitmap.getHeight(), random.nextInt(bitmap.getHeight()) + 1, spaceshipExplosionPaint);
             canvas.drawCircle(x + bitmap.getWidth() / 2, y + bitmap.getHeight(), random.nextInt(bitmap.getHeight()) + 1, spaceshipExplosionTwoPaint);
             if(ticker % 20 == 0) {
@@ -107,5 +105,60 @@ public class Spaceship extends CanvasObject {
             setY(y + yVelocity, canvas);
         }
         ticker++;
+    }
+
+    public void drawBackground(Canvas canvas) {
+        xVelocity = 8;
+        yVelocity = 8;
+        canvas.drawBitmap(bitmap, x, y, null);
+
+        switch(xDirection) {
+            case 1:
+                setXVelocityPositive(canvas);
+                break;
+            default:
+                setXVelocityNegative(canvas);
+                break;
+        }
+        switch(yDirection) {
+            case 1:
+                setYVelocityPositive(canvas);
+                break;
+            default:
+                setYVelocityNegative(canvas);
+                break;
+        }
+        if(x + bitmap.getWidth() == canvas.getWidth()) {
+            setXDirection(0);
+        }
+        if (x == 0) {
+            setXDirection(1);
+        }
+        if(y + bitmap.getHeight() == canvas.getHeight()) {
+            setYDirection(0);
+        }
+        if(y == 0) {
+            setYDirection(1);
+        }
+    }
+
+    public void setXDirection(int xDirection) {
+        this.xDirection = xDirection;
+    }
+    public void setYDirection(int yDirection) {
+        this.yDirection = yDirection;
+    }
+
+    public void setXVelocityPositive(Canvas canvas) {
+        setX(x + xVelocity, canvas);
+    }
+    public void setXVelocityNegative(Canvas canvas) {
+        setX(x - xVelocity, canvas);
+    }
+    public void setYVelocityPositive(Canvas canvas) {
+        setY(y + yVelocity, canvas);
+    }
+    public void setYVelocityNegative(Canvas canvas) {
+        setY(y - yVelocity, canvas);
     }
 }

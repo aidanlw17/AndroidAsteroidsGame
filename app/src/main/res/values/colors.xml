@@ -3,10 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="coolBlue">	#7FFFD4</color>
-    <color name="coolPurple">#DDA0DD</color>
-    <color name="coolGrey">#708090</color>
+    <color name="coolBlue">	#BF7FFFD4</color>
+    <color name="coolPurple">#BFDDA0DD</color>
+    <color name="coolGrey">#BF708090</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="buttontransparent">#BFADC3C5</color>
 
 </resources>

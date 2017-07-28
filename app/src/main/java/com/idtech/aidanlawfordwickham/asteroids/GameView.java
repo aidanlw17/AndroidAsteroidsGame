@@ -41,9 +41,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Bas
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        resetGame();
-        thread.setRunning(true);
-        thread.start();
+
+        if(!thread.isRunning()) {
+            resetGame();
+            thread = new GameThread(getHolder(), this);
+            thread.setRunning(true);
+            thread.start();
+        }
     }
 
     @Override
@@ -76,7 +80,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Bas
                 // Set locations for firing weapon
                 objectManager.weapon.setHolsterLocations(objectManager.spaceship.getX(), objectManager.spaceship.getY());
                 // Fire Bullet
-                objectManager.weapon.fire(2);
+                objectManager.weapon.fire(Weapon.Type.laser);
+                objectManager.weapon.fire(Weapon.Type.turret);
 
             } else if(event.getAction() == MotionEvent.ACTION_MOVE) {
                 joystick.setCanvasFingerX((int) event.getX());

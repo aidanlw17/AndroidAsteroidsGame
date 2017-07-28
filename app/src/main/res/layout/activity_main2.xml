@@ -47,8 +47,8 @@
         <android.support.v4.view.ViewPager
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/pager"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:layout_width="match_parent"
             android:layout_weight="0"
             android:layout_height="200dp">
@@ -58,18 +58,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:fontFamily="sans-serif-smallcaps"
             android:onClick="initiateCharacterBuilder"
+            android:background="@color/buttontransparent"
             android:text="Character Builder"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:fontFamily="sans-serif-smallcaps"
+            android:background="@color/buttontransparent"
             android:text="Achievements"/>
 
         <LinearLayout
@@ -81,15 +87,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="3dp"
                 android:fontFamily="sans-serif-smallcaps"
+                android:background="@color/buttontransparent"
                 android:text="Settings"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
                 android:fontFamily="sans-serif-smallcaps"
+                android:background="@color/buttontransparent"
                 android:text="About"/>
         </LinearLayout>
     </LinearLayout>
