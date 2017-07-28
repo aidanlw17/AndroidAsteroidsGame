@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 /**
  * Created by iD Student on 7/27/2017.
  */
@@ -13,12 +16,19 @@ import android.view.SurfaceView;
 public class BackgroundView extends SurfaceView implements SurfaceHolder.Callback, BaseGameView {
 
     private GameThread thread;
+//    private ObjectManager objectManager;
+    private int ticker;
+
+    private ArrayList<Star> stars;
+    private ArrayList<Star> starsToRemove;
+    private ArrayList<Star> tempStars;
 
     public BackgroundView(Context context, AttributeSet as) {
         super(context, as);
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
-        setFocusable(false);
+        setFocusable(true);
+//        objectManager = new ObjectManager();
     }
 
     @Override
@@ -27,8 +37,8 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        // resetGame();
         if (!thread.isRunning()) {
+            resetGame();
             thread.setRunning(true);
             thread.start();
         }
@@ -47,12 +57,11 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
 
             }
         }
-
     }
 
     @Override
     public void preDraw() {
-
+        preDrawStars();
     }
 
     @Override
@@ -60,11 +69,47 @@ public class BackgroundView extends SurfaceView implements SurfaceHolder.Callbac
         if(canvas == null) {
             return;
         }
+        for(Star star: tempStars) {
+            star.draw(canvas);
+        }
+
+        if(ticker % 4 == 0) {
+            addStar(canvas);
+        }
+        ticker++;
     }
 
     @Override
     public void collisionCheck() {
-
+        clearStars();
     }
 
+    public void addStar(Canvas canvas) {
+        Random generator = new Random();
+        int radius = generator.nextInt(10) + 1;
+        int startingXPosition = generator.nextInt(canvas.getWidth() - 5);
+        Star star = new Star(startingXPosition, 0, radius);
+        tempStars.add(star);
+    }
+
+    public void preDrawStars() {
+        synchronized (stars) {
+            tempStars = new ArrayList<Star>(stars);
+        }
+    }
+
+    public void clearStars() {
+        tempStars.remove(starsToRemove);
+        stars = tempStars;
+        starsToRemove.clear();
+    }
+
+    public void resetGame() {
+        resetStars();
+    }
+
+    public void resetStars() {
+        stars = new ArrayList<Star>();
+        starsToRemove = new ArrayList<Star>();
+    }
 }

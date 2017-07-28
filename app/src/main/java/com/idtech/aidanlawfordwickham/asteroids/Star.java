@@ -2,8 +2,6 @@ package com.idtech.aidanlawfordwickham.asteroids;
 
 import android.graphics.Canvas;
 
-import java.util.Random;
-
 import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.bigStarPaint;
 import static com.idtech.aidanlawfordwickham.asteroids.ObjectPaint.smallStarPaint;
 
