@@ -13,6 +13,7 @@ public class Title {
     int x;
     int y;
     int ticker;
+    private enum State{movingUp, movingDown, hoveringBottom, hoveringTop }
 
     public Title(Bitmap bitmap) {
         this.bitmap = bitmap;
@@ -25,6 +26,10 @@ public class Title {
             canvas.drawBitmap(bitmap, x, y, null);
         }
         ticker++;
+
+    }
+
+    public void movingUp() {
 
     }
 }
