@@ -1,9 +1,11 @@
 package com.idtech.aidanlawfordwickham.asteroids;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,8 +29,8 @@ public class MainActivity extends Activity {
             @Override
             public void run() {
 
-                SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = new sharedPref.edit();
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
                 int highestScore = sharedPref.getInt("Saved Highscore", 0);
                 if(score > highScore) {
                     editor.putInt("Saved Highscore", highestScore);
