@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
     int score;
+    int newHighscore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +32,18 @@ public class MainActivity extends Activity {
 
                 SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                int highestScore = sharedPref.getInt("Saved Highscore", 0);
                 if(score > highScore) {
-                    editor.putInt("Saved Highscore", highestScore);
+                    editor.putInt("Saved Highscore", score);
                     editor.apply();
+                    newHighscore = score;
                 }
+                int highestScore = sharedPref.getInt("Saved Highscore", score);
                 GameView gameView = (GameView)findViewById(R.id.gameView);
                 gameView.setEnabled(false);
                 TextView scoreTextView = (TextView)findViewById(R.id.scoreTextView);
                 scoreTextView.setText("Your score: " + score);
                 TextView highScoreTextView = (TextView)findViewById(R.id.highScoreTextView);
-                highScoreTextView.setText("High score: " + highestScore);
+                highScoreTextView.setText("High score: " + newHighscore);
                 LinearLayout scoreLayout = (LinearLayout)findViewById(R.id.scoreLayout);
                 scoreLayout.setVisibility(View.VISIBLE);
             }
